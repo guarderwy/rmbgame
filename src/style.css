@@ -1,0 +1,148 @@
+/* ===== Cyberpunk Neon Gaming Platform - Global Styles ===== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+:root {
+  --bg-primary: #0f1023;
+  --bg-secondary: #161838;
+  --bg-card: #1e2148;
+  --bg-card-hover: #2a2d5a;
+  --neon-purple: #c850f0;
+  --neon-blue: #2de2ff;
+  --neon-pink: #ff4d94;
+  --neon-cyan: #20ffe0;
+  --neon-gold: #ffe040;
+  --gradient-primary: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+  --gradient-accent: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  --gradient-hero: linear-gradient(135deg, #0f1023 0%, #1f1245 50%, #0f1f45 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b8b8d0;
+  --text-muted: #8888a8;
+  --border-glow: 1px solid rgba(200, 80, 240, 0.35);
+  --shadow-neon: 0 0 24px rgba(200, 80, 240, 0.35), 0 0 48px rgba(45, 226, 255, 0.15);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --nav-height: 72px;
+  --container-max: 1400px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(200,80,240,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,226,255,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app { position: relative; z-index: 1; }
+a { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--neon-purple), var(--neon-blue));
+  border-radius: 4px;
+}
+
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 24px; }
+
+.neon-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 32px;
+  background: var(--gradient-primary);
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600; font-size: 14px;
+  letter-spacing: 1px; text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  position: relative; overflow: hidden;
+}
+.btn-primary::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+.btn-primary:hover::before { left: 100%; }
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(184,41,234,0.5), 0 0 60px rgba(0,212,255,0.3);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 32px;
+  background: transparent;
+  color: var(--neon-blue);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600; font-size: 14px;
+  letter-spacing: 1px; text-transform: uppercase;
+  border: 1px solid var(--neon-blue);
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: rgba(0,212,255,0.1);
+  box-shadow: 0 0 20px rgba(0,212,255,0.3);
+}
+
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 32px; font-weight: 700;
+  margin-bottom: 12px; letter-spacing: 2px;
+}
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 16px; margin-bottom: 48px;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  :root { --nav-height: 60px; }
+  .section-title { font-size: 24px; }
+  .container { padding: 0 16px; }
+}
