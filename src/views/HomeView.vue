@@ -5,8 +5,13 @@ import { games, stats } from '../data/games.js'
 import GameCard from '../components/GameCard.vue'
 
 const router = useRouter()
-const hotGames = computed(() => games.filter(g => g.hot).slice(0, 4))
-const newGames = computed(() => games.filter(g => g.new).slice(0, 4))
+// Split games into two rows for marquee scrolling
+const hotAll = computed(() => games.filter(g => g.hot))
+const newAll = computed(() => games.filter(g => g.new))
+const hotRow1 = computed(() => hotAll.value.slice(0, Math.ceil(hotAll.value.length / 2)))
+const hotRow2 = computed(() => hotAll.value.slice(Math.ceil(hotAll.value.length / 2)))
+const newRow1 = computed(() => newAll.value.slice(0, Math.ceil(newAll.value.length / 2)))
+const newRow2 = computed(() => newAll.value.slice(Math.ceil(newAll.value.length / 2)))
 
 const activeTab = ref('hot')
 </script>
@@ -101,12 +106,37 @@ const activeTab = ref('hot')
         </div>
 
         <transition name="fade" mode="out-in">
-          <div :key="activeTab" class="games-grid">
-            <GameCard
-              v-for="game in (activeTab === 'hot' ? hotGames : newGames)"
-              :key="game.id"
-              :game="game"
-            />
+          <div :key="activeTab" class="marquee-wrapper">
+            <!-- Row 1: scroll right -->
+            <div class="marquee-row marquee-right">
+              <div class="marquee-track">
+                <GameCard
+                  v-for="game in (activeTab === 'hot' ? hotRow1 : newRow1)"
+                  :key="'r1-' + game.id"
+                  :game="game"
+                />
+                <GameCard
+                  v-for="game in (activeTab === 'hot' ? hotRow1 : newRow1)"
+                  :key="'r1-dup-' + game.id"
+                  :game="game"
+                />
+              </div>
+            </div>
+            <!-- Row 2: scroll left -->
+            <div class="marquee-row marquee-left">
+              <div class="marquee-track">
+                <GameCard
+                  v-for="game in (activeTab === 'hot' ? hotRow2 : newRow2)"
+                  :key="'r2-' + game.id"
+                  :game="game"
+                />
+                <GameCard
+                  v-for="game in (activeTab === 'hot' ? hotRow2 : newRow2)"
+                  :key="'r2-dup-' + game.id"
+                  :game="game"
+                />
+              </div>
+            </div>
           </div>
         </transition>
 
@@ -392,6 +422,68 @@ const activeTab = ref('hot')
 
 .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* Marquee Seamless Scrolling */
+.marquee-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+}
+
+.marquee-row {
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-row::before,
+.marquee-row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-row::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-primary), transparent);
+}
+
+.marquee-row::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-primary), transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+}
+
+.marquee-right .marquee-track {
+  animation: scroll-right 30s linear infinite;
+}
+
+.marquee-left .marquee-track {
+  animation: scroll-left 30s linear infinite;
+}
+
+.marquee-row:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 @media (max-width: 1024px) {
   .hero-content { grid-template-columns: 1fr; text-align: center; }
