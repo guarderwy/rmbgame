@@ -2,6 +2,9 @@
 import { ref, computed } from 'vue'
 import { games, categories, providers } from '../data/games.js'
 import GameCard from '../components/GameCard.vue'
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 
 const searchQuery = ref('')
 const activeCategory = ref('all')
@@ -17,6 +20,14 @@ const filteredGames = computed(() => {
     return matchSearch && matchCategory && matchProvider
   })
 })
+
+// Map categories with i18n names
+const localizedCategories = computed(() =>
+  categories.map(cat => ({
+    ...cat,
+    name: t(`categories.${cat.id}`)
+  }))
+)
 </script>
 
 <template>
@@ -24,8 +35,8 @@ const filteredGames = computed(() => {
     <!-- Page Header -->
     <section class="page-header">
       <div class="container">
-        <h1 class="page-title neon-text">游戏大厅</h1>
-        <p class="page-desc">探索 2000+ 精品游戏，找到你的最爱</p>
+        <h1 class="page-title neon-text">{{ t('games.pageTitle') }}</h1>
+        <p class="page-desc">{{ t('games.pageDesc') }}</p>
       </div>
     </section>
 
@@ -38,7 +49,7 @@ const filteredGames = computed(() => {
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="搜索游戏名称或厂商..."
+            :placeholder="t('games.searchPlaceholder')"
             class="search-input"
           />
           <span v-if="searchQuery" class="clear-btn" @click="searchQuery = ''">✕</span>
@@ -47,7 +58,7 @@ const filteredGames = computed(() => {
         <!-- Category Tabs -->
         <div class="category-tabs">
           <button
-            v-for="cat in categories"
+            v-for="cat in localizedCategories"
             :key="cat.id"
             :class="['cat-btn', { active: activeCategory === cat.id }]"
             @click="activeCategory = cat.id"
@@ -63,7 +74,7 @@ const filteredGames = computed(() => {
             :class="['provider-btn', { active: activeProvider === 'all' }]"
             @click="activeProvider = 'all'"
           >
-            全部厂商
+            {{ t('games.allProviders') }}
           </button>
           <button
             v-for="prov in providers"
@@ -81,7 +92,7 @@ const filteredGames = computed(() => {
     <section class="games-section">
       <div class="container">
         <div class="results-info">
-          <span>共找到 <strong class="neon-text">{{ filteredGames.length }}</strong> 款游戏</span>
+          <span v-html="t('games.resultsCount', { count: filteredGames.length })"></span>
         </div>
 
         <transition-group name="grid" tag="div" class="games-grid">
@@ -94,10 +105,10 @@ const filteredGames = computed(() => {
 
         <div v-if="filteredGames.length === 0" class="empty-state">
           <span class="empty-icon">🎮</span>
-          <h3>没有找到匹配的游戏</h3>
-          <p>试试调整筛选条件或搜索关键词</p>
+          <h3>{{ t('games.empty.title') }}</h3>
+          <p>{{ t('games.empty.desc') }}</p>
           <button class="btn-outline" @click="searchQuery = ''; activeCategory = 'all'; activeProvider = 'all'">
-            重置筛选
+            {{ t('games.empty.resetBtn') }}
           </button>
         </div>
       </div>

@@ -1,12 +1,14 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from '../composables/useI18n'
 
 const props = defineProps({
   game: { type: Object, required: true }
 })
 
 const router = useRouter()
+const { t } = useI18n()
 
 const categoryColors = {
   slot: '#b829ea',
@@ -25,16 +27,16 @@ const badgeColor = computed(() => categoryColors[props.game.category] || '#b829e
     <div class="card-image">
       <img :src="game.image" :alt="game.title" loading="lazy" />
       <div class="card-overlay">
-        <button class="play-btn">▶ 试玩</button>
+        <button class="play-btn">{{ t('gameCard.playBtn') }}</button>
       </div>
-      <span v-if="game.hot" class="badge badge-hot">🔥 HOT</span>
-      <span v-if="game.new" class="badge badge-new">✨ NEW</span>
+      <span v-if="game.hot" class="badge badge-hot">{{ t('gameCard.hot') }}</span>
+      <span v-if="game.new" class="badge badge-new">{{ t('gameCard.new') }}</span>
     </div>
 
     <div class="card-body">
       <div class="card-meta">
         <span class="provider" :style="{ color: badgeColor }">{{ game.provider }}</span>
-        <span class="rtp">RTP {{ game.rtp }}%</span>
+        <span class="rtp">{{ t('gameCard.rtp', { value: game.rtp }) }}</span>
       </div>
       <h3 class="card-title">{{ game.title }}</h3>
     </div>

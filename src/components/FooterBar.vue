@@ -1,4 +1,7 @@
 <script setup>
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 const year = new Date().getFullYear()
 </script>
 
@@ -10,37 +13,37 @@ const year = new Date().getFullYear()
           <span class="logo-icon">🎮</span>
           <span class="logo-text">RMB<span class="neon-text">GAMING</span></span>
         </div>
-        <p class="footer-desc">极致游戏体验，尽在 RMB Gaming。汇聚全球顶级游戏厂商，为玩家打造安全、公平、刺激的娱乐平台。</p>
+        <p class="footer-desc">{{ t('footer.desc') }}</p>
       </div>
 
       <div class="footer-links">
         <div class="footer-col">
-          <h4>快速链接</h4>
-          <router-link to="/">首页</router-link>
-          <router-link to="/games">游戏大厅</router-link>
-          <router-link to="/about">关于我们</router-link>
+          <h4>{{ t('footer.quickLinks') }}</h4>
+          <router-link to="/">{{ t('footer.links.home') }}</router-link>
+          <router-link to="/games">{{ t('footer.links.games') }}</router-link>
+          <router-link to="/about">{{ t('footer.links.about') }}</router-link>
         </div>
         <div class="footer-col">
-          <h4>游戏分类</h4>
-          <a href="#">老虎机</a>
-          <a href="#">捕鱼游戏</a>
-          <a href="#">真人视讯</a>
-          <a href="#">棋牌游戏</a>
+          <h4>{{ t('footer.gameCategories') }}</h4>
+          <a href="#">{{ t('footer.categories.slot') }}</a>
+          <a href="#">{{ t('footer.categories.fish') }}</a>
+          <a href="#">{{ t('footer.categories.live') }}</a>
+          <a href="#">{{ t('footer.categories.card') }}</a>
         </div>
         <div class="footer-col">
-          <h4>支持</h4>
-          <a href="#">帮助中心</a>
-          <a href="#">隐私政策</a>
-          <a href="#">服务条款</a>
-          <a href="#">联系我们</a>
+          <h4>{{ t('footer.support') }}</h4>
+          <a href="#">{{ t('footer.supportLinks.help') }}</a>
+          <a href="#">{{ t('footer.supportLinks.privacy') }}</a>
+          <a href="#">{{ t('footer.supportLinks.terms') }}</a>
+          <a href="#">{{ t('footer.supportLinks.contact') }}</a>
         </div>
       </div>
     </div>
 
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
-        <p>&copy; {{ year }} RMB Gaming. All rights reserved.</p>
-        <p class="age-badge">18+ 负责任游戏</p>
+        <p>{{ t('footer.copyright', { year }) }}</p>
+        <p class="age-badge">{{ t('footer.ageNotice') }}</p>
       </div>
     </div>
   </footer>

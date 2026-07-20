@@ -1,10 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { games, stats } from '../data/games.js'
+import { games } from '../data/games.js'
 import GameCard from '../components/GameCard.vue'
+import { useI18n } from '../composables/useI18n'
 
 const router = useRouter()
+const { t } = useI18n()
+
 // Split games into two rows for marquee scrolling
 const hotAll = computed(() => games.filter(g => g.hot))
 const newAll = computed(() => games.filter(g => g.new))
@@ -14,6 +17,14 @@ const newRow1 = computed(() => newAll.value.slice(0, Math.ceil(newAll.value.leng
 const newRow2 = computed(() => newAll.value.slice(Math.ceil(newAll.value.length / 2)))
 
 const activeTab = ref('hot')
+
+// Map stats data with i18n labels
+const statItems = computed(() => [
+  { icon: '🎮', value: '2000+', label: t('stats.games') },
+  { icon: '🤝', value: '50+', label: t('stats.partners') },
+  { icon: '🌍', value: '20+', label: t('stats.languages') },
+  { icon: '📱', value: t('stats.allPlatforms'), label: t('stats.platforms') }
+])
 </script>
 
 <template>
@@ -29,21 +40,20 @@ const activeTab = ref('hot')
 
       <div class="container hero-content">
         <div class="hero-text animate-slide-up">
-          <span class="hero-badge">🔥 全新平台上线</span>
+          <span class="hero-badge">{{ t('home.hero.badge') }}</span>
           <h1 class="hero-title">
-            极致游戏体验<br />
-            <span class="neon-text">超越想象边界</span>
+            {{ t('home.hero.title') }}<br />
+            <span class="neon-text">{{ t('home.hero.titleHighlight') }}</span>
           </h1>
           <p class="hero-desc">
-            汇聚全球顶级游戏厂商，2000+ 精品游戏任你畅玩。<br />
-            赛博朋克风格的沉浸式娱乐平台，为新一代玩家而生。
+            {{ t('home.hero.desc') }}
           </p>
           <div class="hero-actions">
             <button class="btn-primary" @click="router.push('/games')">
-              🎮 探索游戏
+              {{ t('home.hero.exploreBtn') }}
             </button>
             <button class="btn-outline" @click="router.push('/about')">
-              了解更多
+              {{ t('home.hero.learnMoreBtn') }}
             </button>
           </div>
         </div>
@@ -73,7 +83,7 @@ const activeTab = ref('hot')
     <!-- Stats Section -->
     <section class="stats-section">
       <div class="container stats-grid">
-        <div v-for="stat in stats" :key="stat.label" class="stat-item">
+        <div v-for="stat in statItems" :key="stat.label" class="stat-item">
           <span class="stat-icon">{{ stat.icon }}</span>
           <span class="stat-value neon-text">{{ stat.value }}</span>
           <span class="stat-label">{{ stat.label }}</span>
@@ -86,21 +96,21 @@ const activeTab = ref('hot')
       <div class="container">
         <div class="section-header">
           <div>
-            <h2 class="section-title">精选推荐</h2>
-            <p class="section-subtitle">发现最受欢迎的游戏</p>
+            <h2 class="section-title">{{ t('home.featured.title') }}</h2>
+            <p class="section-subtitle">{{ t('home.featured.subtitle') }}</p>
           </div>
           <div class="tab-switcher">
             <button
               :class="['tab-btn', { active: activeTab === 'hot' }]"
               @click="activeTab = 'hot'"
             >
-              🔥 热门
+              {{ t('home.tabs.hot') }}
             </button>
             <button
               :class="['tab-btn', { active: activeTab === 'new' }]"
               @click="activeTab = 'new'"
             >
-              ✨ 新品
+              {{ t('home.tabs.new') }}
             </button>
           </div>
         </div>
@@ -142,7 +152,7 @@ const activeTab = ref('hot')
 
         <div class="section-cta">
           <button class="btn-outline" @click="router.push('/games')">
-            查看全部游戏 →
+            {{ t('home.featured.viewAll') }}
           </button>
         </div>
       </div>
@@ -153,23 +163,23 @@ const activeTab = ref('hot')
       <div class="container features-grid">
         <div class="feature-item">
           <div class="feature-icon">🛡️</div>
-          <h3>安全可靠</h3>
-          <p>银行级加密技术，保障每一笔交易安全</p>
+          <h3>{{ t('home.features.safe.title') }}</h3>
+          <p>{{ t('home.features.safe.desc') }}</p>
         </div>
         <div class="feature-item">
           <div class="feature-icon">⚡</div>
-          <h3>极速体验</h3>
-          <p>全球CDN加速，毫秒级响应无延迟</p>
+          <h3>{{ t('home.features.speed.title') }}</h3>
+          <p>{{ t('home.features.speed.desc') }}</p>
         </div>
         <div class="feature-item">
           <div class="feature-icon">🎯</div>
-          <h3>公平公正</h3>
-          <p>RNG认证随机算法，确保结果公正透明</p>
+          <h3>{{ t('home.features.fair.title') }}</h3>
+          <p>{{ t('home.features.fair.desc') }}</p>
         </div>
         <div class="feature-item">
           <div class="feature-icon">💬</div>
-          <h3>24/7 客服</h3>
-          <p>全天候专业客服团队，随时为您服务</p>
+          <h3>{{ t('home.features.support247.title') }}</h3>
+          <p>{{ t('home.features.support247.desc') }}</p>
         </div>
       </div>
     </section>

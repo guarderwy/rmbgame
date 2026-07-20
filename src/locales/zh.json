@@ -1,0 +1,207 @@
+{
+  "nav": {
+    "home": "首页",
+    "games": "游戏大厅",
+    "about": "关于我们",
+    "cta": "立即体验"
+  },
+  "footer": {
+    "desc": "极致游戏体验，尽在 RMB Gaming。汇聚全球顶级游戏厂商，为玩家打造安全、公平、刺激的娱乐平台。",
+    "quickLinks": "快速链接",
+    "gameCategories": "游戏分类",
+    "support": "支持",
+    "copyright": "© {year} RMB Gaming. All rights reserved.",
+    "ageNotice": "18+ 负责任游戏",
+    "links": {
+      "home": "首页",
+      "games": "游戏大厅",
+      "about": "关于我们"
+    },
+    "categories": {
+      "slot": "老虎机",
+      "fish": "捕鱼游戏",
+      "live": "真人视讯",
+      "card": "棋牌游戏"
+    },
+    "supportLinks": {
+      "help": "帮助中心",
+      "privacy": "隐私政策",
+      "terms": "服务条款",
+      "contact": "联系我们"
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "🔥 全新平台上线",
+      "title": "极致游戏体验",
+      "titleHighlight": "超越想象边界",
+      "desc": "汇聚全球顶级游戏厂商，2000+ 精品游戏任你畅玩。\n赛博朋克风格的沉浸式娱乐平台，为新一代玩家而生。",
+      "exploreBtn": "🎮 探索游戏",
+      "learnMoreBtn": "了解更多"
+    },
+    "featured": {
+      "title": "精选推荐",
+      "subtitle": "发现最受欢迎的游戏",
+      "viewAll": "查看全部游戏 →"
+    },
+    "tabs": {
+      "hot": "🔥 热门",
+      "new": "✨ 新品"
+    },
+    "features": {
+      "safe": { "title": "安全可靠", "desc": "银行级加密技术，保障每一笔交易安全" },
+      "speed": { "title": "极速体验", "desc": "全球CDN加速，毫秒级响应无延迟" },
+      "fair": { "title": "公平公正", "desc": "RNG认证随机算法，确保结果公正透明" },
+      "support247": { "title": "24/7 客服", "desc": "全天候专业客服团队，随时为您服务" }
+    }
+  },
+  "stats": {
+    "games": "精品游戏",
+    "partners": "合作厂商",
+    "languages": "支持语言",
+    "platforms": "终端适配",
+    "allPlatforms": "全平台"
+  },
+  "gameCard": {
+    "playBtn": "▶ 试玩",
+    "hot": "🔥 HOT",
+    "new": "✨ NEW",
+    "rtp": "RTP {value}%"
+  },
+  "games": {
+    "pageTitle": "游戏大厅",
+    "pageDesc": "探索 2000+ 精品游戏，找到你的最爱",
+    "searchPlaceholder": "搜索游戏名称或厂商...",
+    "allProviders": "全部厂商",
+    "resultsCount": "共找到 <strong class=\"neon-text\">{count}</strong> 款游戏",
+    "empty": {
+      "title": "没有找到匹配的游戏",
+      "desc": "试试调整筛选条件或搜索关键词",
+      "resetBtn": "重置筛选"
+    }
+  },
+  "gameDetail": {
+    "breadcrumb": {
+      "home": "首页",
+      "games": "游戏大厅"
+    },
+    "hot": "🔥 HOT",
+    "new": "✨ NEW",
+    "rtp": "RTP",
+    "volatility": "波动性",
+    "category": "分类",
+    "features": "游戏特色",
+    "playBtn": "🎮 立即试玩",
+    "rulesBtn": "📋 游戏规则",
+    "related": {
+      "title": "相似推荐",
+      "subtitle": "你可能还喜欢这些游戏"
+    },
+    "notFound": {
+      "title": "游戏未找到",
+      "desc": "该游戏可能已下架或链接无效",
+      "backBtn": "返回游戏大厅"
+    }
+  },
+  "about": {
+    "pageTitle": "关于我们",
+    "pageDesc": "打造下一代游戏体验平台",
+    "mission": {
+      "title": "我们的使命",
+      "desc": "通过技术创新和极致服务，为全球玩家提供最安全、最公平、最刺激的在线娱乐体验。"
+    },
+    "vision": {
+      "title": "我们的愿景",
+      "desc": "成为亚太地区最受信赖的在线游戏平台，引领行业标准，推动行业发展。"
+    },
+    "values": {
+      "title": "核心价值观",
+      "desc": "诚信为本、用户至上、持续创新、合作共赢。每一个决策都以玩家体验为核心。"
+    },
+    "timeline": {
+      "title": "发展历程",
+      "subtitle": "从初创到行业领先的蜕变之路",
+      "items": {
+        "2020": { "title": "公司成立", "desc": "RMB Gaming 在深圳正式成立" },
+        "2021": { "title": "首批合作", "desc": "与 10+ 顶级游戏厂商达成战略合作" },
+        "2022": { "title": "全球扩展", "desc": "业务覆盖东南亚、欧洲市场" },
+        "2023": { "title": "技术升级", "desc": "全新平台架构上线，支持 2000+ 游戏" },
+        "2024": { "title": "行业领先", "desc": "获评年度最佳游戏平台运营商" }
+      }
+    },
+    "team": {
+      "title": "核心团队",
+      "subtitle": "由行业精英组成的梦之队",
+      "members": [
+        { "name": "Alex Chen", "role": "CEO & Founder" },
+        { "name": "Sarah Lin", "role": "CTO" },
+        { "name": "Mike Wang", "role": "Head of Design" },
+        { "name": "Lisa Zhang", "role": "Head of Operations" }
+      ]
+    },
+    "contact": {
+      "title": "联系我们",
+      "desc": "有任何问题或合作意向？随时与我们取得联系。",
+      "email": "邮箱",
+      "liveChat": "在线客服",
+      "address": "办公地址",
+      "emailValue": "contact@rmbgaming.com",
+      "liveChatValue": "24/7 全天候支持",
+      "addressValue": "深圳市南山区科技园"
+    },
+    "form": {
+      "name": "姓名",
+      "email": "邮箱",
+      "message": "留言",
+      "namePlaceholder": "您的姓名",
+      "emailPlaceholder": "your@email.com",
+      "messagePlaceholder": "请描述您的需求...",
+      "submit": "发送消息",
+      "successTitle": "消息已发送！",
+      "successDesc": "我们会在 24 小时内回复您"
+    }
+  },
+  "categories": {
+    "all": "全部",
+    "slot": "老虎机",
+    "fish": "捕鱼",
+    "live": "真人视讯",
+    "card": "棋牌",
+    "mini": "迷你游戏",
+    "sport": "体育竞技"
+  },
+  "volatility": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "extreme": "Extreme"
+  },
+  "game": {
+    "descriptions": {
+      "1": "迎接财富之虎，在充满东方神韵的卷轴上追寻巨额奖金。独特的金色虎纹符号带来无限好运。",
+      "2": "探索古老的阿兹特克文明，解锁神秘的免费旋转奖励。黄金面具符号开启宝藏之门。",
+      "3": "深海捕鱼盛宴！精美的海底场景，多种武器选择，捕获稀有鱼种赢取丰厚奖励。",
+      "4": "孵化神龙蛋，释放远古力量！级联卷轴机制配合龙焰特效，打造极致视觉体验。",
+      "5": "可爱的绵羊主题赌场游戏。流畅的动画效果和多种下注选项，带来欢乐体验。",
+      "6": "凤凰涅槃传说。收集凤凰符号触发特殊奖励回合，浴火重生赢取大奖。",
+      "7": "宙斯亲自降临！Pay Anywhere机制搭配随机乘数，最高可达500倍。",
+      "8": "末日僵尸猎杀主题的高波动性老虎机。VS符号对决带来高达100倍的乘数。",
+      "9": "古罗马竞技场主题。角斗士符号组合触发免费旋转和累积奖池。",
+      "10": "海盗船长寻宝之旅。使用特殊技能捕获传说中的宝藏，赢取丰厚赏金。",
+      "11": "黄金帝国主题老虎机。华丽的视觉效果搭配多重奖励机制，让你沉浸在金色的财富世界中。",
+      "12": "趣味小鸡快跑主题游戏。轻松愉快的玩法搭配丰厚奖励，适合所有玩家。",
+      "13": "亚马逊鹦鹉女神带来幸运祝福。热带雨林背景下的色彩斑斓冒险之旅。",
+      "14": "巨额美金主题老虎机。金币雨特效搭配累积奖池，每一转都是财富机遇。",
+      "15": "墨西哥风情主题。辣椒、吉他与仙人掌符号组合出热情洋溢的奖金回合。",
+      "16": "齐天大圣大闹天宫！金箍棒Wild符号横扫卷轴，七十二变触发随机奖励。",
+      "17": "巴西传统动物彩票游戏现代化重制。选择你的幸运动物，赢取即时奖金。",
+      "18": "可爱兔子主题的优雅老虎机。月光花园背景下，收集胡萝卜符号解锁惊喜。",
+      "19": "小丑与Ace的经典扑克对决。策略性下注搭配幸运抽牌，考验你的牌技。",
+      "20": "阳光沙滩派对主题。比基尼Wild和冲浪板Scatter带你进入夏日狂欢。",
+      "21": "神灯精灵满足你的三个愿望。每次旋转都可能触发神秘的魔法奖励。",
+      "22": "龙族宝藏捕鱼游戏。深海龙宫中的珍稀鱼种价值连城，瞄准射击赢取宝藏。",
+      "23": "幸运熊猫带来东方好运。竹林深处的黄金宝箱等待勇敢的玩家开启。",
+      "24": "太空宝石消除游戏。在星际间穿梭收集稀有宝石，连消触发超新星爆炸奖励。"
+    }
+  }
+}

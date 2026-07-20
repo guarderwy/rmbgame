@@ -1,0 +1,207 @@
+{
+  "nav": {
+    "home": "Início",
+    "games": "Jogos",
+    "about": "Sobre",
+    "cta": "Começar Agora"
+  },
+  "footer": {
+    "desc": "Experiência de jogo definitiva na RMB Gaming. Em parceria com os melhores desenvolvedores de jogos do mundo, criando uma plataforma de entretenimento segura, justa e emocionante.",
+    "quickLinks": "Links Rápidos",
+    "gameCategories": "Categorias",
+    "support": "Suporte",
+    "copyright": "© {year} RMB Gaming. Todos os direitos reservados.",
+    "ageNotice": "18+ Jogo Responsável",
+    "links": {
+      "home": "Início",
+      "games": "Jogos",
+      "about": "Sobre Nós"
+    },
+    "categories": {
+      "slot": "Caça-níqueis",
+      "fish": "Pesca",
+      "live": "Cassino Ao Vivo",
+      "card": "Jogos de Cartas"
+    },
+    "supportLinks": {
+      "help": "Central de Ajuda",
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Serviço",
+      "contact": "Fale Conosco"
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "🔥 Nova Plataforma Lançada",
+      "title": "Experiência de Jogo Definitiva",
+      "titleHighlight": "Além da Imaginação",
+      "desc": "Mais de 2000 jogos premium dos melhores desenvolvedores do mundo.\nUma plataforma de entretenimento imersiva inspirada no cyberpunk, criada para a nova geração.",
+      "exploreBtn": "🎮 Explorar Jogos",
+      "learnMoreBtn": "Saiba Mais"
+    },
+    "featured": {
+      "title": "Jogos em Destaque",
+      "subtitle": "Descubra os jogos mais populares",
+      "viewAll": "Ver Todos os Jogos →"
+    },
+    "tabs": {
+      "hot": "🔥 Populares",
+      "new": "✨ Novidades"
+    },
+    "features": {
+      "safe": { "title": "Seguro & Confiável", "desc": "Criptografia de nível bancário protegendo cada transação" },
+      "speed": { "title": "Extremamente Rápido", "desc": "Aceleração CDN global com resposta em milissegundos" },
+      "fair": { "title": "Justo & Transparente", "desc": "Algoritmos certificados RNG garantindo resultados justos" },
+      "support247": { "title": "Suporte 24/7", "desc": "Equipe de suporte profissional disponível 24 horas por dia" }
+    }
+  },
+  "stats": {
+    "games": "Jogos Premium",
+    "partners": "Parceiros",
+    "languages": "Idiomas",
+    "platforms": "Plataformas",
+    "allPlatforms": "Todas as Plataformas"
+  },
+  "gameCard": {
+    "playBtn": "▶ Jogar",
+    "hot": "🔥 HOT",
+    "new": "✨ NOVO",
+    "rtp": "RTP {value}%"
+  },
+  "games": {
+    "pageTitle": "Salão de Jogos",
+    "pageDesc": "Explore mais de 2000 jogos premium e encontre seu favorito",
+    "searchPlaceholder": "Pesquisar nome do jogo ou fornecedor...",
+    "allProviders": "Todos os Fornecedores",
+    "resultsCount": "Encontrados <strong class=\"neon-text\">{count}</strong> jogos",
+    "empty": {
+      "title": "Nenhum jogo encontrado",
+      "desc": "Tente ajustar seus filtros ou palavras-chave de pesquisa",
+      "resetBtn": "Redefinir Filtros"
+    }
+  },
+  "gameDetail": {
+    "breadcrumb": {
+      "home": "Início",
+      "games": "Jogos"
+    },
+    "hot": "🔥 HOT",
+    "new": "✨ NOVO",
+    "rtp": "RTP",
+    "volatility": "Volatilidade",
+    "category": "Categoria",
+    "features": "Recursos do Jogo",
+    "playBtn": "🎮 Jogar Agora",
+    "rulesBtn": "📋 Regras do Jogo",
+    "related": {
+      "title": "Recomendações Semelhantes",
+      "subtitle": "Você também pode gostar destes jogos"
+    },
+    "notFound": {
+      "title": "Jogo Não Encontrado",
+      "desc": "Este jogo pode ter sido removido ou o link é inválido",
+      "backBtn": "Voltar ao Salão de Jogos"
+    }
+  },
+  "about": {
+    "pageTitle": "Sobre Nós",
+    "pageDesc": "Construindo a plataforma de jogos da próxima geração",
+    "mission": {
+      "title": "Nossa Missão",
+      "desc": "Através da inovação tecnológica e serviço excepcional, proporcionamos a experiência de entretenimento online mais segura, justa e emocionante para jogadores em todo o mundo."
+    },
+    "vision": {
+      "title": "Nossa Visão",
+      "desc": "Tornar-se a plataforma de jogos online mais confiável da região Ásia-Pacífico, estabelecendo padrões do setor e impulsionando o crescimento da indústria."
+    },
+    "values": {
+      "title": "Valores Fundamentais",
+      "desc": "Integridade, foco no usuário, inovação contínua e cooperação ganha-ganha. Cada decisão coloca a experiência do jogador no centro."
+    },
+    "timeline": {
+      "title": "Nossa Jornada",
+      "subtitle": "De startup a líder do setor",
+      "items": {
+        "2020": { "title": "Fundação da Empresa", "desc": "RMB Gaming foi oficialmente estabelecida em Shenzhen" },
+        "2021": { "title": "Primeiras Parcerias", "desc": "Parcerias estratégicas com mais de 10 desenvolvedores top" },
+        "2022": { "title": "Expansão Global", "desc": "Negócios expandidos para mercados do Sudeste Asiático e Europa" },
+        "2023": { "title": "Atualização Tecnológica", "desc": "Nova arquitetura de plataforma lançada, suportando mais de 2000 jogos" },
+        "2024": { "title": "Líder do Setor", "desc": "Premiada como Melhor Operadora de Plataforma de Jogos do Ano" }
+      }
+    },
+    "team": {
+      "title": "Equipe Principal",
+      "subtitle": "Uma equipe dos sonhos formada por elites do setor",
+      "members": [
+        { "name": "Alex Chen", "role": "CEO & Fundador" },
+        { "name": "Sarah Lin", "role": "CTO" },
+        { "name": "Mike Wang", "role": "Diretor de Design" },
+        { "name": "Lisa Zhang", "role": "Diretora de Operações" }
+      ]
+    },
+    "contact": {
+      "title": "Fale Conosco",
+      "desc": "Tem dúvidas ou propostas de parceria? Entre em contato conosco a qualquer momento.",
+      "email": "E-mail",
+      "liveChat": "Chat Ao Vivo",
+      "address": "Endereço",
+      "emailValue": "contact@rmbgaming.com",
+      "liveChatValue": "Suporte 24 horas por dia",
+      "addressValue": "Parque de Ciência e Tecnologia de Nanshan, Shenzhen"
+    },
+    "form": {
+      "name": "Nome",
+      "email": "E-mail",
+      "message": "Mensagem",
+      "namePlaceholder": "Seu nome",
+      "emailPlaceholder": "seu@email.com",
+      "messagePlaceholder": "Descreva sua solicitação...",
+      "submit": "Enviar Mensagem",
+      "successTitle": "Mensagem Enviada!",
+      "successDesc": "Entraremos em contato em até 24 horas"
+    }
+  },
+  "categories": {
+    "all": "Todos",
+    "slot": "Caça-níqueis",
+    "fish": "Pesca",
+    "live": "Cassino Ao Vivo",
+    "card": "Cartas",
+    "mini": "Mini Jogos",
+    "sport": "Esportes"
+  },
+  "volatility": {
+    "low": "Baixa",
+    "medium": "Média",
+    "high": "Alta",
+    "extreme": "Extrema"
+  },
+  "game": {
+    "descriptions": {
+      "1": "Receba o Tigre da Fortuna e busque grandes prêmios em rolos de inspiração oriental. O símbolo único de listras de tigre dourado traz sorte infinita.",
+      "2": "Explore a antiga civilização asteca e desbloqueie misteriosas rodadas grátis. O símbolo da máscara dourada abre a porta do tesouro.",
+      "3": "Festa de pesca em alto mar! Cenários subaquáticos deslumbrantes, múltiplas opções de armas, capture peixes raros para ganhar recompensas generosas.",
+      "4": "Choque ovos de dragão e libere poder ancestral! Rolos em cascata com efeitos de chama de dragão criam uma experiência visual extraordinária.",
+      "5": "Jogo de cassino com tema de ovelhas fofas. Animações suaves e múltiplas opções de aposta para uma experiência alegre.",
+      "6": "Lenda da Fênix renascida. Colete símbolos de fênix para ativar rodadas de bônus especiais e renascer das cinzas para ganhar grandes prêmios.",
+      "7": "Zeus desce! Mecanismo Pay Anywhere com multiplicadores aleatórios de até 500x.",
+      "8": "Caça-níqueis de alta volatilidade com tema de zumbis pós-apocalípticos. Duelos de símbolos VS trazem multiplicadores de até 100x.",
+      "9": "Tema do Coliseu Romano Antigo. Combinações de símbolos gladiadores ativam rodadas grátis e jackpots progressivos.",
+      "10": "Caça ao tesouro do capitão pirata. Use habilidades especiais para capturar tesouros lendários e ganhar recompensas generosas.",
+      "11": "Caça-níqueis com tema do Império Dourado. Visuais deslumbrantes com múltiplos mecanismos de bônus mergulham você em um mundo de riqueza dourada.",
+      "12": "Jogo divertido de corrida de galinhas. Jogabilidade relaxante com recompensas generosas, adequado para todos os jogadores.",
+      "13": "Deusa papagaio amazônico traz bênçãos de sorte. Uma aventura colorida pela floresta tropical.",
+      "14": "Caça-níqueis com tema de milhões. Efeitos de chuva de moedas com jackpots progressivos, cada giro é uma oportunidade de riqueza.",
+      "15": "Tema de festa mexicana. Pimentas, violões e símbolos de cactos se combinam para rodadas de bônus apaixonadas.",
+      "16": "O Rei Macaco causa caos no céu! Símbolos Wild de bastão dourado varrem os rolos, 72 transformações ativam recompensas aleatórias.",
+      "17": "Versão moderna do tradicional jogo de loteria animal brasileiro. Escolha seu animal da sorte e ganhe prêmios instantâneos.",
+      "18": "Caça-níqueis elegante com tema de coelhos fofos. Colete símbolos de cenoura sob o jardim da lua para desbloquear surpresas.",
+      "19": "Duelo clássico de pôquer entre Coringa e Ás. Apostas estratégicas com sorteio de cartas testam suas habilidades.",
+      "20": "Tema de festa na praia ensolarada. Wilds de biquíni e Scatters de prancha de surf levam você à diversão de verão.",
+      "21": "O gênio concede seus três desejos. Cada giro pode ativar misteriosas recompensas mágicas.",
+      "22": "Jogo de pesca de tesouro do dragão. Espécies raras de peixes no palácio do dragão no mar profundo valem uma fortuna, mire e atire por tesouros.",
+      "23": "Panda da sorte traz fortuna oriental. Baús de tesouro dourados escondidos na floresta de bambu aguardam jogadores corajosos.",
+      "24": "Jogo de combinação de gemas espaciais. Colete gemas raras viajando pelo espaço interestelar, cascatas ativam recompensas de explosão de supernova."
+    }
+  }
+}

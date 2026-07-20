@@ -3,9 +3,11 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { games } from '../data/games.js'
 import GameCard from '../components/GameCard.vue'
+import { useI18n } from '../composables/useI18n'
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 
 const game = computed(() => games.find(g => g.id === Number(route.params.id)))
 
@@ -15,15 +17,34 @@ const relatedGames = computed(() => {
     .filter(g => g.id !== game.value.id && (g.category === game.value.category || g.provider === game.value.provider))
     .slice(0, 4)
 })
+
+// Get localized category name
+const localizedCategory = computed(() => {
+  if (!game.value) return ''
+  return t(`categories.${game.value.category}`)
+})
+
+// Get localized volatility
+const localizedVolatility = computed(() => {
+  if (!game.value) return ''
+  const key = game.value.volatility.toLowerCase()
+  return t(`volatility.${key}`)
+})
+
+// Get localized description
+const localizedDesc = computed(() => {
+  if (!game.value) return ''
+  return t(`game.descriptions.${game.value.id}`)
+})
 </script>
 
 <template>
   <div class="detail-page" v-if="game">
     <!-- Breadcrumb -->
     <div class="container breadcrumb-bar">
-      <span class="crumb" @click="router.push('/')">首页</span>
+      <span class="crumb" @click="router.push('/')">{{ t('gameDetail.breadcrumb.home') }}</span>
       <span class="sep">/</span>
-      <span class="crumb" @click="router.push('/games')">游戏大厅</span>
+      <span class="crumb" @click="router.push('/games')">{{ t('gameDetail.breadcrumb.games') }}</span>
       <span class="sep">/</span>
       <span class="crumb active">{{ game.title }}</span>
     </div>
@@ -38,33 +59,33 @@ const relatedGames = computed(() => {
 
         <div class="detail-info">
           <div class="detail-badges">
-            <span v-if="game.hot" class="badge badge-hot">🔥 HOT</span>
-            <span v-if="game.new" class="badge badge-new">✨ NEW</span>
-            <span class="badge badge-cat">{{ game.category.toUpperCase() }}</span>
+            <span v-if="game.hot" class="badge badge-hot">{{ t('gameDetail.hot') }}</span>
+            <span v-if="game.new" class="badge badge-new">{{ t('gameDetail.new') }}</span>
+            <span class="badge badge-cat">{{ localizedCategory.toUpperCase() }}</span>
           </div>
 
           <h1 class="detail-title">{{ game.title }}</h1>
           <p class="detail-provider">{{ game.provider }}</p>
 
-          <p class="detail-desc">{{ game.description }}</p>
+          <p class="detail-desc">{{ localizedDesc }}</p>
 
           <div class="detail-stats">
             <div class="stat-box">
-              <span class="stat-label">RTP</span>
+              <span class="stat-label">{{ t('gameDetail.rtp') }}</span>
               <span class="stat-value neon-text">{{ game.rtp }}%</span>
             </div>
             <div class="stat-box">
-              <span class="stat-label">波动性</span>
-              <span class="stat-value">{{ game.volatility }}</span>
+              <span class="stat-label">{{ t('gameDetail.volatility') }}</span>
+              <span class="stat-value">{{ localizedVolatility }}</span>
             </div>
             <div class="stat-box">
-              <span class="stat-label">分类</span>
-              <span class="stat-value">{{ game.category }}</span>
+              <span class="stat-label">{{ t('gameDetail.category') }}</span>
+              <span class="stat-value">{{ localizedCategory }}</span>
             </div>
           </div>
 
           <div class="detail-features">
-            <h3>游戏特色</h3>
+            <h3>{{ t('gameDetail.features') }}</h3>
             <div class="feature-tags">
               <span v-for="feat in game.features" :key="feat" class="feature-tag">
                 {{ feat }}
@@ -73,8 +94,8 @@ const relatedGames = computed(() => {
           </div>
 
           <div class="detail-actions">
-            <button class="btn-primary">🎮 立即试玩</button>
-            <button class="btn-outline">📋 游戏规则</button>
+            <button class="btn-primary">{{ t('gameDetail.playBtn') }}</button>
+            <button class="btn-outline">{{ t('gameDetail.rulesBtn') }}</button>
           </div>
         </div>
       </div>
@@ -83,8 +104,8 @@ const relatedGames = computed(() => {
     <!-- Related Games -->
     <section class="related-section" v-if="relatedGames.length">
       <div class="container">
-        <h2 class="section-title">相似推荐</h2>
-        <p class="section-subtitle">你可能还喜欢这些游戏</p>
+        <h2 class="section-title">{{ t('gameDetail.related.title') }}</h2>
+        <p class="section-subtitle">{{ t('gameDetail.related.subtitle') }}</p>
         <div class="games-grid">
           <GameCard v-for="g in relatedGames" :key="g.id" :game="g" />
         </div>
@@ -95,9 +116,9 @@ const relatedGames = computed(() => {
   <div v-else class="not-found">
     <div class="container" style="text-align:center; padding: 120px 20px;">
       <span style="font-size:64px; display:block; margin-bottom:20px;">😕</span>
-      <h2 style="font-family:'Orbitron',sans-serif; margin-bottom:12px;">游戏未找到</h2>
-      <p style="color:var(--text-secondary); margin-bottom:24px;">该游戏可能已下架或链接无效</p>
-      <button class="btn-primary" @click="router.push('/games')">返回游戏大厅</button>
+      <h2 style="font-family:'Orbitron',sans-serif; margin-bottom:12px;">{{ t('gameDetail.notFound.title') }}</h2>
+      <p style="color:var(--text-secondary); margin-bottom:24px;">{{ t('gameDetail.notFound.desc') }}</p>
+      <button class="btn-primary" @click="router.push('/games')">{{ t('gameDetail.notFound.backBtn') }}</button>
     </div>
   </div>
 </template>

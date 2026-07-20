@@ -1,0 +1,207 @@
+{
+  "nav": {
+    "home": "Home",
+    "games": "Games",
+    "about": "About",
+    "cta": "Get Started"
+  },
+  "footer": {
+    "desc": "Ultimate gaming experience at RMB Gaming. Partnering with the world's top game developers to create a secure, fair, and exciting entertainment platform for players.",
+    "quickLinks": "Quick Links",
+    "gameCategories": "Categories",
+    "support": "Support",
+    "copyright": "© {year} RMB Gaming. All rights reserved.",
+    "ageNotice": "18+ Responsible Gaming",
+    "links": {
+      "home": "Home",
+      "games": "Games",
+      "about": "About Us"
+    },
+    "categories": {
+      "slot": "Slots",
+      "fish": "Fish Games",
+      "live": "Live Casino",
+      "card": "Card Games"
+    },
+    "supportLinks": {
+      "help": "Help Center",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "contact": "Contact Us"
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "🔥 Brand New Platform",
+      "title": "Ultimate Gaming Experience",
+      "titleHighlight": "Beyond Imagination",
+      "desc": "Featuring 2000+ premium games from the world's top developers.\nA cyberpunk-inspired immersive entertainment platform built for the next generation.",
+      "exploreBtn": "🎮 Explore Games",
+      "learnMoreBtn": "Learn More"
+    },
+    "featured": {
+      "title": "Featured Games",
+      "subtitle": "Discover the most popular games",
+      "viewAll": "View All Games →"
+    },
+    "tabs": {
+      "hot": "🔥 Hot",
+      "new": "✨ New"
+    },
+    "features": {
+      "safe": { "title": "Safe & Secure", "desc": "Bank-grade encryption protecting every transaction" },
+      "speed": { "title": "Lightning Fast", "desc": "Global CDN acceleration with millisecond response" },
+      "fair": { "title": "Fair & Transparent", "desc": "RNG-certified algorithms ensuring fair results" },
+      "support247": { "title": "24/7 Support", "desc": "Round-the-clock professional support team" }
+    }
+  },
+  "stats": {
+    "games": "Premium Games",
+    "partners": "Game Partners",
+    "languages": "Languages",
+    "platforms": "Platform Support",
+    "allPlatforms": "All Platforms"
+  },
+  "gameCard": {
+    "playBtn": "▶ Play",
+    "hot": "🔥 HOT",
+    "new": "✨ NEW",
+    "rtp": "RTP {value}%"
+  },
+  "games": {
+    "pageTitle": "Game Lobby",
+    "pageDesc": "Explore 2000+ premium games and find your favorite",
+    "searchPlaceholder": "Search game name or provider...",
+    "allProviders": "All Providers",
+    "resultsCount": "Found <strong class=\"neon-text\">{count}</strong> games",
+    "empty": {
+      "title": "No games found",
+      "desc": "Try adjusting your filters or search keywords",
+      "resetBtn": "Reset Filters"
+    }
+  },
+  "gameDetail": {
+    "breadcrumb": {
+      "home": "Home",
+      "games": "Games"
+    },
+    "hot": "🔥 HOT",
+    "new": "✨ NEW",
+    "rtp": "RTP",
+    "volatility": "Volatility",
+    "category": "Category",
+    "features": "Game Features",
+    "playBtn": "🎮 Play Now",
+    "rulesBtn": "📋 Game Rules",
+    "related": {
+      "title": "Similar Recommendations",
+      "subtitle": "You might also like these games"
+    },
+    "notFound": {
+      "title": "Game Not Found",
+      "desc": "This game may have been removed or the link is invalid",
+      "backBtn": "Back to Game Lobby"
+    }
+  },
+  "about": {
+    "pageTitle": "About Us",
+    "pageDesc": "Building the next generation gaming platform",
+    "mission": {
+      "title": "Our Mission",
+      "desc": "Through technological innovation and exceptional service, we provide the safest, fairest, and most thrilling online entertainment experience for players worldwide."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "desc": "To become the most trusted online gaming platform in the Asia-Pacific region, setting industry standards and driving industry growth."
+    },
+    "values": {
+      "title": "Core Values",
+      "desc": "Integrity, user-first, continuous innovation, and win-win cooperation. Every decision puts the player experience at the center."
+    },
+    "timeline": {
+      "title": "Our Journey",
+      "subtitle": "From startup to industry leader",
+      "items": {
+        "2020": { "title": "Company Founded", "desc": "RMB Gaming was officially established in Shenzhen" },
+        "2021": { "title": "First Partnerships", "desc": "Strategic partnerships with 10+ top game developers" },
+        "2022": { "title": "Global Expansion", "desc": "Business expanded to Southeast Asia and European markets" },
+        "2023": { "title": "Technology Upgrade", "desc": "New platform architecture launched, supporting 2000+ games" },
+        "2024": { "title": "Industry Leader", "desc": "Awarded Best Gaming Platform Operator of the Year" }
+      }
+    },
+    "team": {
+      "title": "Core Team",
+      "subtitle": "A dream team of industry elites",
+      "members": [
+        { "name": "Alex Chen", "role": "CEO & Founder" },
+        { "name": "Sarah Lin", "role": "CTO" },
+        { "name": "Mike Wang", "role": "Head of Design" },
+        { "name": "Lisa Zhang", "role": "Head of Operations" }
+      ]
+    },
+    "contact": {
+      "title": "Contact Us",
+      "desc": "Have questions or partnership inquiries? Get in touch with us anytime.",
+      "email": "Email",
+      "liveChat": "Live Chat",
+      "address": "Office Address",
+      "emailValue": "contact@rmbgaming.com",
+      "liveChatValue": "24/7 Round-the-clock support",
+      "addressValue": "Shenzhen Nanshan Science & Technology Park"
+    },
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "your@email.com",
+      "messagePlaceholder": "Describe your inquiry...",
+      "submit": "Send Message",
+      "successTitle": "Message Sent!",
+      "successDesc": "We will get back to you within 24 hours"
+    }
+  },
+  "categories": {
+    "all": "All",
+    "slot": "Slots",
+    "fish": "Fishing",
+    "live": "Live Casino",
+    "card": "Card",
+    "mini": "Mini Games",
+    "sport": "Sports"
+  },
+  "volatility": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "extreme": "Extreme"
+  },
+  "game": {
+    "descriptions": {
+      "1": "Welcome the Tiger of Fortune and chase huge wins on oriental-themed reels. The unique golden tiger stripe symbol brings endless luck.",
+      "2": "Explore the ancient Aztec civilization and unlock mysterious free spin rewards. The golden mask symbol opens the treasure door.",
+      "3": "Deep sea fishing feast! Stunning underwater scenes, multiple weapon choices, catch rare fish for丰厚 rewards.",
+      "4": "Hatch dragon eggs and unleash ancient power! Cascading reels with dragon flame effects create an极致 visual experience.",
+      "5": "Cute sheep-themed casino game. Smooth animations and multiple betting options for a joyful experience.",
+      "6": "Phoenix涅槃 legend. Collect phoenix symbols to trigger special bonus rounds, reborn from fire to win big.",
+      "7": "Zeus descends! Pay Anywhere mechanism with random multipliers up to 500x.",
+      "8": "Post-apocalyptic zombie hunting high-volatility slot. VS symbol duels bring multipliers up to 100x.",
+      "9": "Ancient Roman Colosseum theme. Gladiator symbol combinations trigger free spins and progressive jackpots.",
+      "10": "Pirate captain treasure hunt. Use special skills to capture legendary treasures and win丰厚 bounties.",
+      "11": "Golden Empire themed slot. Gorgeous visuals with multiple bonus mechanisms immerse you in a world of golden wealth.",
+      "12": "Fun chicken dash themed game. Relaxed gameplay with丰厚 rewards, suitable for all players.",
+      "13": "Amazon parrot goddess brings lucky blessings. A colorful adventure through the tropical rainforest.",
+      "14": "Mega dollar themed slot. Coin rain effects with progressive jackpots, every spin is a wealth opportunity.",
+      "15": "Mexican fiesta theme. Chili peppers, guitars and cactus symbols combine for passionate bonus rounds.",
+      "16": "The Monkey King wreaks havoc in heaven! Golden staff Wild symbols sweep the reels, 72 transformations trigger random rewards.",
+      "17": "Modern remake of the traditional Brazilian animal lottery game. Choose your lucky animal and win instant prizes.",
+      "18": "Elegant slot with cute rabbit theme. Collect carrot symbols under the moonlight garden to unlock surprises.",
+      "19": "Classic poker showdown between Joker and Ace. Strategic betting with lucky card draws test your skills.",
+      "20": "Sunny beach party theme. Bikini Wilds and surfboard Scatters take you into summer狂欢.",
+      "21": "The genie grants your three wishes. Every spin may trigger mysterious magic rewards.",
+      "22": "Dragon treasure fishing game. Rare fish species in the deep sea dragon palace are worth a fortune, aim and shoot for treasures.",
+      "23": "Lucky panda brings eastern fortune. Golden treasure chests hidden in the bamboo forest await brave players.",
+      "24": "Space gem match game. Collect rare gems穿梭 through interstellar space, cascade triggers supernova explosion rewards."
+    }
+  }
+}

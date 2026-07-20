@@ -1,5 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from '../composables/useI18n'
+
+const { t } = useI18n()
 
 const form = ref({ name: '', email: '', message: '' })
 const submitted = ref(false)
@@ -14,20 +17,22 @@ const handleSubmit = () => {
   }
 }
 
-const team = [
-  { name: 'Alex Chen', role: 'CEO & Founder', avatar: '👨‍💼' },
-  { name: 'Sarah Lin', role: 'CTO', avatar: '👩‍💻' },
-  { name: 'Mike Wang', role: 'Head of Design', avatar: '🎨' },
-  { name: 'Lisa Zhang', role: 'Head of Operations', avatar: '📊' }
-]
+// Localized team members
+const team = computed(() => [
+  { name: 'Alex Chen', role: t('about.team.members.0.role'), avatar: '👨‍💼' },
+  { name: 'Sarah Lin', role: t('about.team.members.1.role'), avatar: '👩‍💻' },
+  { name: 'Mike Wang', role: t('about.team.members.2.role'), avatar: '🎨' },
+  { name: 'Lisa Zhang', role: t('about.team.members.3.role'), avatar: '📊' }
+])
 
-const milestones = [
-  { year: '2020', title: '公司成立', desc: 'RMB Gaming 在深圳正式成立' },
-  { year: '2021', title: '首批合作', desc: '与 10+ 顶级游戏厂商达成战略合作' },
-  { year: '2022', title: '全球扩展', desc: '业务覆盖东南亚、欧洲市场' },
-  { year: '2023', title: '技术升级', desc: '全新平台架构上线，支持 2000+ 游戏' },
-  { year: '2024', title: '行业领先', desc: '获评年度最佳游戏平台运营商' }
-]
+// Localized milestones
+const milestones = computed(() => [
+  { year: '2020', title: t('about.timeline.items.2020.title'), desc: t('about.timeline.items.2020.desc') },
+  { year: '2021', title: t('about.timeline.items.2021.title'), desc: t('about.timeline.items.2021.desc') },
+  { year: '2022', title: t('about.timeline.items.2022.title'), desc: t('about.timeline.items.2022.desc') },
+  { year: '2023', title: t('about.timeline.items.2023.title'), desc: t('about.timeline.items.2023.desc') },
+  { year: '2024', title: t('about.timeline.items.2024.title'), desc: t('about.timeline.items.2024.desc') }
+])
 </script>
 
 <template>
@@ -35,8 +40,8 @@ const milestones = [
     <!-- Hero -->
     <section class="about-hero">
       <div class="container">
-        <h1 class="page-title neon-text">关于我们</h1>
-        <p class="page-desc">打造下一代游戏体验平台</p>
+        <h1 class="page-title neon-text">{{ t('about.pageTitle') }}</h1>
+        <p class="page-desc">{{ t('about.pageDesc') }}</p>
       </div>
     </section>
 
@@ -45,18 +50,18 @@ const milestones = [
       <div class="container mission-grid">
         <div class="mission-card">
           <div class="mission-icon">🚀</div>
-          <h3>我们的使命</h3>
-          <p>通过技术创新和极致服务，为全球玩家提供最安全、最公平、最刺激的在线娱乐体验。</p>
+          <h3>{{ t('about.mission.title') }}</h3>
+          <p>{{ t('about.mission.desc') }}</p>
         </div>
         <div class="mission-card">
           <div class="mission-icon">💡</div>
-          <h3>我们的愿景</h3>
-          <p>成为亚太地区最受信赖的在线游戏平台，引领行业标准，推动行业发展。</p>
+          <h3>{{ t('about.vision.title') }}</h3>
+          <p>{{ t('about.vision.desc') }}</p>
         </div>
         <div class="mission-card">
           <div class="mission-icon">❤️</div>
-          <h3>核心价值观</h3>
-          <p>诚信为本、用户至上、持续创新、合作共赢。每一个决策都以玩家体验为核心。</p>
+          <h3>{{ t('about.values.title') }}</h3>
+          <p>{{ t('about.values.desc') }}</p>
         </div>
       </div>
     </section>
@@ -64,8 +69,8 @@ const milestones = [
     <!-- Timeline -->
     <section class="timeline-section">
       <div class="container">
-        <h2 class="section-title" style="text-align:center;">发展历程</h2>
-        <p class="section-subtitle" style="text-align:center;">从初创到行业领先的蜕变之路</p>
+        <h2 class="section-title" style="text-align:center;">{{ t('about.timeline.title') }}</h2>
+        <p class="section-subtitle" style="text-align:center;">{{ t('about.timeline.subtitle') }}</p>
 
         <div class="timeline">
           <div v-for="(item, i) in milestones" :key="item.year" class="timeline-item" :class="{ right: i % 2 !== 0 }">
@@ -83,8 +88,8 @@ const milestones = [
     <!-- Team -->
     <section class="team-section">
       <div class="container">
-        <h2 class="section-title" style="text-align:center;">核心团队</h2>
-        <p class="section-subtitle" style="text-align:center;">由行业精英组成的梦之队</p>
+        <h2 class="section-title" style="text-align:center;">{{ t('about.team.title') }}</h2>
+        <p class="section-subtitle" style="text-align:center;">{{ t('about.team.subtitle') }}</p>
 
         <div class="team-grid">
           <div v-for="member in team" :key="member.name" class="team-card">
@@ -100,29 +105,29 @@ const milestones = [
     <section class="contact-section">
       <div class="container contact-grid">
         <div class="contact-info">
-          <h2 class="section-title">联系我们</h2>
-          <p class="contact-desc">有任何问题或合作意向？随时与我们取得联系。</p>
+          <h2 class="section-title">{{ t('about.contact.title') }}</h2>
+          <p class="contact-desc">{{ t('about.contact.desc') }}</p>
 
           <div class="contact-items">
             <div class="contact-item">
               <span class="ci-icon">📧</span>
               <div>
-                <h4>邮箱</h4>
-                <p>contact@rmbgaming.com</p>
+                <h4>{{ t('about.contact.email') }}</h4>
+                <p>{{ t('about.contact.emailValue') }}</p>
               </div>
             </div>
             <div class="contact-item">
               <span class="ci-icon">💬</span>
               <div>
-                <h4>在线客服</h4>
-                <p>24/7 全天候支持</p>
+                <h4>{{ t('about.contact.liveChat') }}</h4>
+                <p>{{ t('about.contact.liveChatValue') }}</p>
               </div>
             </div>
             <div class="contact-item">
               <span class="ci-icon">📍</span>
               <div>
-                <h4>办公地址</h4>
-                <p>深圳市南山区科技园</p>
+                <h4>{{ t('about.contact.address') }}</h4>
+                <p>{{ t('about.contact.addressValue') }}</p>
               </div>
             </div>
           </div>
@@ -132,24 +137,24 @@ const milestones = [
           <transition name="fade" mode="out-in">
             <div v-if="submitted" class="success-msg" key="success">
               <span>✅</span>
-              <h3>消息已发送！</h3>
-              <p>我们会在 24 小时内回复您</p>
+              <h3>{{ t('about.form.successTitle') }}</h3>
+              <p>{{ t('about.form.successDesc') }}</p>
             </div>
             <form v-else @submit.prevent="handleSubmit" class="contact-form" key="form">
               <div class="form-group">
-                <label>姓名</label>
-                <input v-model="form.name" type="text" placeholder="您的姓名" required />
+                <label>{{ t('about.form.name') }}</label>
+                <input v-model="form.name" type="text" :placeholder="t('about.form.namePlaceholder')" required />
               </div>
               <div class="form-group">
-                <label>邮箱</label>
-                <input v-model="form.email" type="email" placeholder="your@email.com" required />
+                <label>{{ t('about.form.email') }}</label>
+                <input v-model="form.email" type="email" :placeholder="t('about.form.emailPlaceholder')" required />
               </div>
               <div class="form-group">
-                <label>留言</label>
-                <textarea v-model="form.message" placeholder="请描述您的需求..." rows="4" required></textarea>
+                <label>{{ t('about.form.message') }}</label>
+                <textarea v-model="form.message" :placeholder="t('about.form.messagePlaceholder')" rows="4" required></textarea>
               </div>
               <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
-                发送消息
+                {{ t('about.form.submit') }}
               </button>
             </form>
           </transition>
