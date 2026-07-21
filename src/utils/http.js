@@ -1,17 +1,9 @@
 /**
  * HTTP 请求工具
- * 封装 fetch API，提供统一的请求管理、错误处理、超时控制等功能
+ * 基于 axios，提供统一的请求管理、错误处理、超时控制等功能
  */
 
-// ==================== 基础配置 ====================
-
-const BASE_CONFIG = {
-  baseURL: 'http://192.168.1.105:9700',
-  timeout: 15000,           // 默认超时 15s
-  credentials: 'omit',      // 跨域请求不携带凭证
-  mode: 'cors',             // 启用 CORS
-  cache: 'no-cache'         // 禁用缓存
-}
+import axios from 'axios'
 
 // ==================== 自定义错误类 ====================
 
@@ -33,183 +25,55 @@ class TimeoutError extends Error {
   }
 }
 
-// ==================== 工具函数 ====================
+// ==================== 创建 axios 实例 ====================
 
-/**
- * 序列化 URL 查询参数
- * @param {object} params - 参数对象
- * @returns {string} 序列化后的查询字符串
- */
-function stringifyQuery(params) {
-  if (!params || Object.keys(params).length === 0) return ''
-  const parts = []
-  for (const [key, value] of Object.entries(params)) {
-    if (value === undefined || value === null) continue
-    if (Array.isArray(value)) {
-      value.forEach(v => parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(v)}`))
-    } else {
-      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    }
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://192.168.1.105:9700',
+  timeout: 15000,
+  withCredentials: false,
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    'Cache-Control': 'no-cache'
   }
-  return parts.length ? `?${parts.join('&')}` : ''
-}
+})
 
-/**
- * 合并请求头
- */
-function mergeHeaders(...sources) {
-  const result = new Headers()
-  for (const source of sources) {
-    if (!source) continue
-    const headers = source instanceof Headers ? source : new Headers(source)
-    for (const [key, value] of headers.entries()) {
-      result.set(key, value)
+// ==================== 响应拦截器 ====================
+
+instance.interceptors.response.use(
+  response => response,
+  error => {
+    // 超时错误
+    if (error.code === 'ECONNABORTED') {
+      return Promise.reject(new TimeoutError(
+        error.config?.url || '',
+        error.config?.timeout || 15000
+      ))
     }
+
+    // 有 HTTP 响应体的错误
+    if (error.response) {
+      return Promise.reject(new HttpError(
+        `HTTP ${error.response.status}: ${error.response.statusText}`,
+        error.response.status,
+        error.response.data
+      ))
+    }
+
+    // 其他网络错误
+    return Promise.reject(new HttpError(
+      error.message || 'Network request failed',
+      0,
+      null
+    ))
   }
-  return result
-}
+)
 
 // ==================== 核心请求方法 ====================
 
-/**
- * 发送 HTTP 请求
- * @param {string} url - 请求路径（相对路径会自动拼接 baseURL）
- * @param {object} options - 请求配置
- * @param {string} [options.method='GET'] - 请求方法
- * @param {object} [options.params] - URL 查询参数
- * @param {object|FormData|string} [options.data] - 请求体
- * @param {object} [options.headers] - 自定义请求头
- * @param {number} [options.timeout] - 超时时间（ms）
- * @param {AbortSignal} [options.signal] - 外部取消信号
- * @param {boolean} [options.raw=false] - 是否返回原始 Response 对象
- * @returns {Promise<any>} 响应数据
- */
-async function request(url, options = {}) {
-  const {
-    method = 'GET',
-    params,
-    data,
-    headers: customHeaders,
-    timeout = BASE_CONFIG.timeout,
-    signal: externalSignal,
-    raw = false
-  } = options
-
-  // 1. 拼接完整 URL
-  const fullURL = url.startsWith('http') ? url : `${BASE_CONFIG.baseURL}${url}`
-
-  // 2. 拼接查询参数
-  const queryString = stringifyQuery(params)
-  const requestURL = `${fullURL}${queryString}`
-
-  // 3. 构建请求头
-  const defaultHeaders = {
-    'Accept': 'application/json, text/plain, */*'
-  }
-
-  // 自动设置 Content-Type（非 GET 请求且有 body 时）
-  let body = undefined
-  if (data !== undefined && data !== null) {
-    if (typeof data === 'object' && !(data instanceof FormData) && !(data instanceof URLSearchParams)) {
-      defaultHeaders['Content-Type'] = 'application/json;charset=UTF-8'
-      body = JSON.stringify(data)
-    } else {
-      body = data
-    }
-  }
-
-  const headers = mergeHeaders(defaultHeaders, customHeaders)
-
-  // 4. 超时控制
-  const controller = new AbortController()
-  const timeoutId = setTimeout(() => {
-    controller.abort(new TimeoutError(requestURL, timeout))
-  }, timeout)
-
-  // 同时支持外部取消信号
-  const signal = externalSignal
-    ? combineAbortSignals(controller.signal, externalSignal)
-    : controller.signal
-
-  try {
-    // 5. 发起请求
-    const response = await fetch(requestURL, {
-      method,
-      headers,
-      body: method !== 'GET' ? body : undefined,
-      signal,
-      credentials: BASE_CONFIG.credentials,
-      mode: BASE_CONFIG.mode,
-      cache: BASE_CONFIG.cache
-    })
-
-    // 6. 如果请求被外部取消，提前返回
-    if (externalSignal?.aborted) {
-      throw externalSignal.reason || new DOMException('Aborted', 'AbortError')
-    }
-
-    // 7. 原始返回
-    if (raw) return response
-
-    // 8. 解析响应
-    const contentType = response.headers.get('content-type') || ''
-    let result
-
-    if (contentType.includes('application/json')) {
-      result = await response.json()
-    } else if (contentType.includes('text/')) {
-      result = await response.text()
-    } else {
-      result = await response.blob()
-    }
-
-    // 9. 业务层错误处理
-    if (!response.ok) {
-      throw new HttpError(
-        `HTTP ${response.status}: ${response.statusText}`,
-        response.status,
-        result
-      )
-    }
-
-    return result
-  } catch (err) {
-    // 10. 统一错误处理
-    if (err instanceof TimeoutError) {
-      throw err
-    }
-    if (err instanceof HttpError) {
-      throw err
-    }
-    if (err.name === 'AbortError') {
-      throw err
-    }
-    throw new HttpError(
-      err.message || 'Network request failed',
-      0,
-      null
-    )
-  } finally {
-    clearTimeout(timeoutId)
-  }
+async function request(config) {
+  const response = await instance(config)
+  return response.data
 }
-
-/**
- * 合并两个 AbortSignal
- */
-function combineAbortSignals(signal1, signal2) {
-  if (!signal1) return signal2
-  if (!signal2) return signal1
-  const controller = new AbortController()
-
-  const abort = () => controller.abort()
-  signal1.addEventListener('abort', abort, { once: true })
-  signal2.addEventListener('abort', abort, { once: true })
-
-  return controller.signal
-}
-
-// ==================== 导出方法 ====================
 
 /**
  * GET 请求
@@ -221,7 +85,8 @@ function combineAbortSignals(signal1, signal2) {
  * @param {AbortSignal} [options.signal] - 取消信号
  */
 export function get(url, options = {}) {
-  return request(url, { ...options, method: 'GET' })
+  const { params, headers, timeout, signal } = options
+  return request({ method: 'GET', url, params, headers, timeout, signal })
 }
 
 /**
@@ -235,28 +100,32 @@ export function get(url, options = {}) {
  * @param {AbortSignal} [options.signal] - 取消信号
  */
 export function post(url, data, options = {}) {
-  return request(url, { ...options, method: 'POST', data })
+  const { params, headers, timeout, signal } = options
+  return request({ method: 'POST', url, data, params, headers, timeout, signal })
 }
 
 /**
  * PUT 请求
  */
 export function put(url, data, options = {}) {
-  return request(url, { ...options, method: 'PUT', data })
+  const { params, headers, timeout, signal } = options
+  return request({ method: 'PUT', url, data, params, headers, timeout, signal })
 }
 
 /**
  * DELETE 请求
  */
 export function del(url, options = {}) {
-  return request(url, { ...options, method: 'DELETE' })
+  const { params, headers, timeout, signal } = options
+  return request({ method: 'DELETE', url, params, headers, timeout, signal })
 }
 
 /**
  * 更新基础配置
  */
 export function setBaseConfig(config) {
-  Object.assign(BASE_CONFIG, config)
+  if (config.baseURL) instance.defaults.baseURL = config.baseURL
+  if (config.timeout) instance.defaults.timeout = config.timeout
 }
 
 // 导出错误类供外部判断
