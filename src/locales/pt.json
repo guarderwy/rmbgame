@@ -71,6 +71,7 @@
   "games": {
     "pageTitle": "Salão de Jogos",
     "pageDesc": "Explore mais de 2000 jogos premium e encontre seu favorito",
+    "loading": "Carregando...",
     "searchPlaceholder": "Pesquisar nome do jogo ou fornecedor...",
     "allProviders": "Todos os Fornecedores",
     "resultsCount": "Encontrados <strong class=\"neon-text\">{count}</strong> jogos",
@@ -168,13 +169,23 @@
     "live": "Cassino Ao Vivo",
     "card": "Cartas",
     "mini": "Mini Jogos",
-    "sport": "Esportes"
+    "sport": "Esportes",
+    "blockchain": "Blockchain"
   },
   "volatility": {
     "low": "Baixa",
     "medium": "Média",
     "high": "Alta",
     "extreme": "Extrema"
+  },
+  "rtpModal": {
+    "selectRtp": "Selecionar RTP",
+    "selectRtpDesc": "Escolha seu valor de RTP preferido para ajustar a experiência de jogo",
+    "confirm": "Iniciar Jogo",
+    "cancel": "Cancelar",
+    "setting": "Configurando RTP...",
+    "setSuccess": "RTP configurado com sucesso, entrando no jogo...",
+    "setFailed": "Falha ao configurar RTP"
   },
   "game": {
     "descriptions": {

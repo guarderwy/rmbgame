@@ -1,6 +1,15 @@
 <script setup>
+import { onMounted } from 'vue'
 import NavBar from './components/NavBar.vue'
 import FooterBar from './components/FooterBar.vue'
+import { getUserInfo } from './api/user.js'
+
+onMounted(() => {
+  // 界面渲染完成后再创建用户会话
+  setTimeout(() => {
+    getUserInfo().catch(err => console.warn('User init failed:', err))
+  }, 0)
+})
 </script>
 
 <template>

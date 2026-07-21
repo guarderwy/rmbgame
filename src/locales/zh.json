@@ -71,6 +71,7 @@
   "games": {
     "pageTitle": "游戏大厅",
     "pageDesc": "探索 2000+ 精品游戏，找到你的最爱",
+    "loading": "加载中...",
     "searchPlaceholder": "搜索游戏名称或厂商...",
     "allProviders": "全部厂商",
     "resultsCount": "共找到 <strong class=\"neon-text\">{count}</strong> 款游戏",
@@ -168,13 +169,23 @@
     "live": "真人视讯",
     "card": "棋牌",
     "mini": "迷你游戏",
-    "sport": "体育竞技"
+    "sport": "体育竞技",
+    "blockchain": "区块链"
   },
   "volatility": {
     "low": "Low",
     "medium": "Medium",
     "high": "High",
     "extreme": "Extreme"
+  },
+  "rtpModal": {
+    "selectRtp": "选择 RTP",
+    "selectRtpDesc": "选择你想要的 RTP 值，影响游戏体验",
+    "confirm": "确认开始",
+    "cancel": "取消",
+    "setting": "正在设置 RTP...",
+    "setSuccess": "RTP 设置成功，正在进入游戏...",
+    "setFailed": "设置 RTP 失败"
   },
   "game": {
     "descriptions": {

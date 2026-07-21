@@ -1,35 +1,90 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { games } from '../data/games.js'
+import { useGames } from '../api/games'
+import { setUserRtp, getGameUrl } from '../api/user'
 import GameCard from '../components/GameCard.vue'
+import RtpModal from '../components/RtpModal.vue'
 import { useI18n } from '../composables/useI18n'
 
 const router = useRouter()
-const { t } = useI18n()
-
-// Split games into two rows for marquee scrolling
-const hotAll = computed(() => games.filter(g => g.hot))
-const newAll = computed(() => games.filter(g => g.new))
-const hotRow1 = computed(() => hotAll.value.slice(0, Math.ceil(hotAll.value.length / 2)))
-const hotRow2 = computed(() => hotAll.value.slice(Math.ceil(hotAll.value.length / 2)))
-const newRow1 = computed(() => newAll.value.slice(0, Math.ceil(newAll.value.length / 2)))
-const newRow2 = computed(() => newAll.value.slice(Math.ceil(newAll.value.length / 2)))
+const { t, locale } = useI18n()
+const { hotGames, newGames, loading, fetchGames } = useGames()
 
 const activeTab = ref('hot')
 
-// Map stats data with i18n labels
+const displayGames = computed(() => activeTab.value === 'hot' ? hotGames.value : newGames.value)
+
+// Split into two rows for marquee
+const row1 = computed(() => displayGames.value.slice(0, Math.ceil(displayGames.value.length / 2)))
+const row2 = computed(() => displayGames.value.slice(Math.ceil(displayGames.value.length / 2)))
+
+// RTP modal state
+const selectedGame = ref(null)
+const showRtpModal = ref(false)
+const currentRtp = ref(0)
+const settingRtp = ref(false)
+const rtpStatusMsg = ref('')
+const rtpError = ref('')
+
+function onGameSelect(game) {
+  selectedGame.value = game
+  try {
+    const info = JSON.parse(localStorage.getItem('user_info') || '{}')
+    currentRtp.value = info.rtp || 0
+  } catch {
+    currentRtp.value = 0
+  }
+  rtpError.value = ''
+  showRtpModal.value = true
+}
+
+async function onRtpConfirm(rtp) {
+  settingRtp.value = true
+  rtpError.value = ''
+  rtpStatusMsg.value = t('rtpModal.setting')
+
+  try {
+    await setUserRtp(rtp)
+
+    // RTP 设置成功，显示成功提示
+    rtpStatusMsg.value = t('rtpModal.setSuccess')
+
+    const game = selectedGame.value
+    const gameUrl = await getGameUrl(game.game_code, locale.value, game.provider)
+
+    showRtpModal.value = false
+    selectedGame.value = null
+    settingRtp.value = false
+
+    if (window.innerWidth <= 768) {
+      window.location.href = gameUrl
+    } else {
+      window.open(gameUrl, '_blank')
+    }
+  } catch (e) {
+    settingRtp.value = false
+    rtpError.value = e.message || t('rtpModal.setFailed')
+    // 3秒后自动清除错误提示
+    setTimeout(() => { rtpError.value = '' }, 3000)
+  }
+}
+
 const statItems = computed(() => [
   { icon: '🎮', value: '2000+', label: t('stats.games') },
   { icon: '🤝', value: '50+', label: t('stats.partners') },
   { icon: '🌍', value: '20+', label: t('stats.languages') },
   { icon: '📱', value: t('stats.allPlatforms'), label: t('stats.platforms') }
 ])
+
+onMounted(() => {
+  fetchGames()
+})
 </script>
 
 <template>
   <div class="home">
-    <!-- Hero Section with Video Background -->
+    <!-- Hero Section -->
     <section class="hero">
       <div class="hero-video-bg">
         <video autoplay muted loop playsinline preload="auto">
@@ -62,18 +117,24 @@ const statItems = computed(() => [
           <div class="hero-card-stack">
             <div class="floating-card card-1">
               <div class="card-glow"></div>
-              <img src="/images/games/759-large/Gate_of_Olympus.jpg" alt="Gate of Olympus" />
-              <p>Gate of Olympus</p>
+              <div class="floating-img">
+                <img src="https://uploads.wwapi.vip/uploads_002/images/pg/126.png" alt="Fortune Tiger" />
+              </div>
+              <p>Premium Slots</p>
             </div>
             <div class="floating-card card-2">
               <div class="card-glow"></div>
-              <img src="/images/games/759-large/phoenix-legend.jpg" alt="Phoenix Legend" />
-              <p>Phoenix Legend</p>
+              <div class="floating-img">
+                <img src="https://uploads.wwapi.vip/uploads_002/images/wg/3022.png" alt="Fishing Master" />
+              </div>
+              <p>Fishing Games</p>
             </div>
             <div class="floating-card card-3">
               <div class="card-glow"></div>
-              <img src="/images/games/759-large/Dragons_Grace.jpg" alt="Dragons Grace" />
-              <p>Dragons Grace</p>
+              <div class="floating-img">
+                <img src="https://uploads.wwapi.vip/uploads_002/images/pg/69.png" alt="Bikini Paradise" />
+              </div>
+              <p>Live Casino</p>
             </div>
           </div>
         </div>
@@ -115,36 +176,22 @@ const statItems = computed(() => [
           </div>
         </div>
 
-        <transition name="fade" mode="out-in">
+        <div v-if="loading" style="text-align:center; padding:40px 0; color:var(--text-muted);">
+          Loading...
+        </div>
+
+        <transition v-else name="fade" mode="out-in">
           <div :key="activeTab" class="marquee-wrapper">
-            <!-- Row 1: scroll right -->
             <div class="marquee-row marquee-right">
               <div class="marquee-track">
-                <GameCard
-                  v-for="game in (activeTab === 'hot' ? hotRow1 : newRow1)"
-                  :key="'r1-' + game.id"
-                  :game="game"
-                />
-                <GameCard
-                  v-for="game in (activeTab === 'hot' ? hotRow1 : newRow1)"
-                  :key="'r1-dup-' + game.id"
-                  :game="game"
-                />
+                <GameCard v-for="game in row1" :key="'r1-' + game.game_code" :game="game" @select="onGameSelect" />
+                <GameCard v-for="game in row1" :key="'r1-dup-' + game.game_code" :game="game" @select="onGameSelect" />
               </div>
             </div>
-            <!-- Row 2: scroll left -->
             <div class="marquee-row marquee-left">
               <div class="marquee-track">
-                <GameCard
-                  v-for="game in (activeTab === 'hot' ? hotRow2 : newRow2)"
-                  :key="'r2-' + game.id"
-                  :game="game"
-                />
-                <GameCard
-                  v-for="game in (activeTab === 'hot' ? hotRow2 : newRow2)"
-                  :key="'r2-dup-' + game.id"
-                  :game="game"
-                />
+                <GameCard v-for="game in row2" :key="'r2-' + game.game_code" :game="game" @select="onGameSelect" />
+                <GameCard v-for="game in row2" :key="'r2-dup-' + game.game_code" :game="game" @select="onGameSelect" />
               </div>
             </div>
           </div>
@@ -183,6 +230,27 @@ const statItems = computed(() => [
         </div>
       </div>
     </section>
+
+    <!-- RTP Selection Modal -->
+    <RtpModal
+      v-if="showRtpModal && selectedGame"
+      :game="selectedGame"
+      :current-rtp="currentRtp"
+      @close="showRtpModal = false; selectedGame = null"
+      @confirm="onRtpConfirm"
+    />
+    <Teleport v-if="settingRtp" to="body">
+      <div class="rtp-loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>{{ rtpStatusMsg }}</p>
+      </div>
+    </Teleport>
+    <Teleport v-if="rtpError" to="body">
+      <div class="rtp-error-toast">
+        <span>⚠️</span>
+        <span>{{ rtpError }}</span>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -267,7 +335,7 @@ const statItems = computed(() => [
 .floating-card {
   position: absolute;
   width: 200px;
-  padding: 12px;
+  padding: 24px;
   background: var(--bg-card);
   border: 1px solid rgba(200, 80, 240, 0.3);
   border-radius: var(--radius-md);
@@ -276,14 +344,21 @@ const statItems = computed(() => [
   backdrop-filter: blur(10px);
 }
 
-.floating-card img {
+.floating-img {
   width: 100%;
   aspect-ratio: 4/3;
-  object-fit: cover;
-  border-radius: 6px;
+  border-radius: 8px;
+  overflow: hidden;
   margin-bottom: 10px;
 }
-.floating-card span { font-size: 48px; display: block; margin-bottom: 12px; }
+
+.floating-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .floating-card p {
   font-family: 'Orbitron', sans-serif;
   font-size: 13px;
@@ -371,12 +446,6 @@ const statItems = computed(() => [
 .tab-btn.active {
   background: var(--gradient-primary);
   color: #fff;
-}
-
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
 }
 
 .section-cta {
@@ -510,5 +579,41 @@ const statItems = computed(() => [
   .stat-value { font-size: 28px; }
   .features-grid { grid-template-columns: 1fr; }
   .section-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
+/* RTP Loading / Error overlay */
+.rtp-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.rtp-loading-overlay p {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+.rtp-error-toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: rgba(255, 45, 78, 0.15);
+  border: 1px solid rgba(255, 45, 78, 0.3);
+  border-radius: 12px;
+  color: #ff4d6a;
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.25s ease;
 }
 </style>

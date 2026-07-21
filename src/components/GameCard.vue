@@ -1,13 +1,12 @@
 <script setup>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { useI18n } from '../composables/useI18n'
 
 const props = defineProps({
   game: { type: Object, required: true }
 })
 
-const router = useRouter()
+const emit = defineEmits(['select'])
 const { t } = useI18n()
 
 const categoryColors = {
@@ -20,25 +19,27 @@ const categoryColors = {
 }
 
 const badgeColor = computed(() => categoryColors[props.game.category] || '#b829ea')
+
+const isHot = computed(() => props.game.hot === 1 || props.game.hot === true)
+const isNew = computed(() => props.game.new === 1 || props.game.new === true)
 </script>
 
 <template>
-  <div class="game-card" @click="router.push(`/game/${game.id}`)">
+  <div class="game-card" @click="emit('select', game)">
     <div class="card-image">
-      <img :src="game.image" :alt="game.title" loading="lazy" />
+      <img :src="game.icon" :alt="game.name" loading="lazy" />
       <div class="card-overlay">
         <button class="play-btn">{{ t('gameCard.playBtn') }}</button>
       </div>
-      <span v-if="game.hot" class="badge badge-hot">{{ t('gameCard.hot') }}</span>
-      <span v-if="game.new" class="badge badge-new">{{ t('gameCard.new') }}</span>
+      <span v-if="isHot" class="badge badge-hot">{{ t('gameCard.hot') }}</span>
+      <span v-if="isNew" class="badge badge-new">{{ t('gameCard.new') }}</span>
     </div>
 
     <div class="card-body">
       <div class="card-meta">
-        <span class="provider" :style="{ color: badgeColor }">{{ game.provider }}</span>
-        <span class="rtp">{{ t('gameCard.rtp', { value: game.rtp }) }}</span>
+        <span v-if="game.provider" class="provider" :style="{ color: badgeColor }">{{ game.provider }}</span>
       </div>
-      <h3 class="card-title">{{ game.title }}</h3>
+      <h3 class="card-title">{{ game.name }}</h3>
     </div>
 
     <div class="card-glow" :style="{ background: `radial-gradient(circle at center, ${badgeColor}20, transparent)` }"></div>
@@ -145,14 +146,8 @@ const badgeColor = computed(() => categoryColors[props.game.category] || '#b829e
 
 .provider {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: bold;
   letter-spacing: 0.5px;
-}
-
-.rtp {
-  font-size: 11px;
-  color: var(--text-muted);
-  font-family: 'Orbitron', sans-serif;
 }
 
 .card-title {

@@ -1,33 +1,108 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { games, categories, providers } from '../data/games.js'
-import GameCard from '../components/GameCard.vue'
+import { ref, computed, onMounted } from 'vue'
 import { useI18n } from '../composables/useI18n'
+import { useGames } from '../api/games'
+import { setUserRtp, getGameUrl } from '../api/user'
+import GameCard from '../components/GameCard.vue'
+import RtpModal from '../components/RtpModal.vue'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const { categories, allGames, loading, error, fetchGames } = useGames()
 
 const searchQuery = ref('')
 const activeCategory = ref('all')
 const activeProvider = ref('all')
 
+// RTP modal state
+const selectedGame = ref(null)
+const showRtpModal = ref(false)
+const currentRtp = ref(0)
+const settingRtp = ref(false)
+const rtpStatusMsg = ref('')
+const rtpError = ref('')
+
+function onGameSelect(game) {
+  selectedGame.value = game
+  try {
+    const info = JSON.parse(localStorage.getItem('user_info') || '{}')
+    currentRtp.value = info.rtp || 0
+  } catch {
+    currentRtp.value = 0
+  }
+  rtpError.value = ''
+  showRtpModal.value = true
+}
+
+async function onRtpConfirm(rtp) {
+  settingRtp.value = true
+  rtpError.value = ''
+  rtpStatusMsg.value = t('rtpModal.setting')
+
+  try {
+    await setUserRtp(rtp)
+
+    // RTP 设置成功，显示成功提示
+    rtpStatusMsg.value = t('rtpModal.setSuccess')
+
+    const game = selectedGame.value
+    const gameUrl = await getGameUrl(game.game_code, locale.value, game.provider)
+
+    showRtpModal.value = false
+    selectedGame.value = null
+    settingRtp.value = false
+
+    if (window.innerWidth <= 768) {
+      window.location.href = gameUrl
+    } else {
+      window.open(gameUrl, '_blank')
+    }
+  } catch (e) {
+    settingRtp.value = false
+    rtpError.value = e.message || t('rtpModal.setFailed')
+    // 3秒后自动清除错误提示
+    setTimeout(() => { rtpError.value = '' }, 3000)
+  }
+}
+
+// Build category tabs from API categories
+const categoryTabs = computed(() => {
+  const list = [{ id: 'all', icon: '🎮', name: t('categories.all') }]
+  for (const cat of categories.value) {
+    list.push({
+      id: cat.name,
+      icon: cat.icon || '🎮',
+      name: t(`categories.${cat.name}`) || cat.name
+    })
+  }
+  return list
+})
+
+// Extract unique providers — only for the current category
+const providers = computed(() => {
+  const source = activeCategory.value === 'all'
+    ? allGames.value
+    : allGames.value.filter(g => g.category === activeCategory.value)
+  const set = new Set(source.map(g => g.provider).filter(Boolean))
+  return Array.from(set).sort()
+})
+
+// Filtered games
 const filteredGames = computed(() => {
-  return games.filter(game => {
+  return allGames.value.filter(game => {
     const matchSearch = !searchQuery.value ||
-      game.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      game.provider.toLowerCase().includes(searchQuery.value.toLowerCase())
+      game.name?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      game.provider?.toLowerCase().includes(searchQuery.value.toLowerCase())
     const matchCategory = activeCategory.value === 'all' || game.category === activeCategory.value
     const matchProvider = activeProvider.value === 'all' || game.provider === activeProvider.value
     return matchSearch && matchCategory && matchProvider
   })
 })
 
-// Map categories with i18n names
-const localizedCategories = computed(() =>
-  categories.map(cat => ({
-    ...cat,
-    name: t(`categories.${cat.id}`)
-  }))
-)
+onMounted(() => {
+  if (categories.value.length === 0) {
+    fetchGames()
+  }
+})
 </script>
 
 <template>
@@ -40,79 +115,124 @@ const localizedCategories = computed(() =>
       </div>
     </section>
 
-    <!-- Filters -->
-    <section class="filters-section">
-      <div class="container">
-        <!-- Search -->
-        <div class="search-bar">
-          <span class="search-icon">🔍</span>
-          <input
-            v-model="searchQuery"
-            type="text"
-            :placeholder="t('games.searchPlaceholder')"
-            class="search-input"
-          />
-          <span v-if="searchQuery" class="clear-btn" @click="searchQuery = ''">✕</span>
-        </div>
-
-        <!-- Category Tabs -->
-        <div class="category-tabs">
-          <button
-            v-for="cat in localizedCategories"
-            :key="cat.id"
-            :class="['cat-btn', { active: activeCategory === cat.id }]"
-            @click="activeCategory = cat.id"
-          >
-            <span class="cat-icon">{{ cat.icon }}</span>
-            <span>{{ cat.name }}</span>
-          </button>
-        </div>
-
-        <!-- Provider Filter -->
-        <div class="provider-filter">
-          <button
-            :class="['provider-btn', { active: activeProvider === 'all' }]"
-            @click="activeProvider = 'all'"
-          >
-            {{ t('games.allProviders') }}
-          </button>
-          <button
-            v-for="prov in providers"
-            :key="prov"
-            :class="['provider-btn', { active: activeProvider === prov }]"
-            @click="activeProvider = prov"
-          >
-            {{ prov }}
-          </button>
-        </div>
+    <!-- Loading State -->
+    <section v-if="loading" class="loading-section">
+      <div class="container" style="text-align:center; padding: 60px 0;">
+        <div class="loading-spinner"></div>
+        <p style="color:var(--text-muted); margin-top:16px;">{{ t('games.loading') }}</p>
       </div>
     </section>
 
-    <!-- Games Grid -->
-    <section class="games-section">
-      <div class="container">
-        <div class="results-info">
-          <span v-html="t('games.resultsCount', { count: filteredGames.length })"></span>
-        </div>
-
-        <transition-group name="grid" tag="div" class="games-grid">
-          <GameCard
-            v-for="game in filteredGames"
-            :key="game.id"
-            :game="game"
-          />
-        </transition-group>
-
-        <div v-if="filteredGames.length === 0" class="empty-state">
-          <span class="empty-icon">🎮</span>
-          <h3>{{ t('games.empty.title') }}</h3>
-          <p>{{ t('games.empty.desc') }}</p>
-          <button class="btn-outline" @click="searchQuery = ''; activeCategory = 'all'; activeProvider = 'all'">
-            {{ t('games.empty.resetBtn') }}
-          </button>
-        </div>
+    <!-- Error State -->
+    <section v-else-if="error" class="error-section">
+      <div class="container" style="text-align:center; padding: 60px 0;">
+        <span style="font-size:48px; display:block; margin-bottom:16px;">⚠️</span>
+        <p style="color:var(--neon-pink);">{{ error }}</p>
+        <button class="btn-outline" style="margin-top:16px;" @click="fetchGames">
+          {{ t('games.empty.resetBtn') }}
+        </button>
       </div>
     </section>
+
+    <!-- Content -->
+    <template v-else>
+      <!-- Filters -->
+      <section class="filters-section">
+        <div class="container">
+          <!-- Search -->
+          <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input
+              v-model="searchQuery"
+              type="text"
+              :placeholder="t('games.searchPlaceholder')"
+              class="search-input"
+            />
+            <span v-if="searchQuery" class="clear-btn" @click="searchQuery = ''">✕</span>
+          </div>
+
+          <!-- Category Tabs -->
+          <div class="category-tabs">
+            <button
+              v-for="cat in categoryTabs"
+              :key="cat.id"
+              :class="['cat-btn', { active: activeCategory === cat.id }]"
+              @click="activeCategory = cat.id; searchQuery = ''"
+            >
+              <img v-if="cat.icon?.startsWith('http')" class="cat-icon-img" :src="cat.icon" :alt="cat.name" />
+              <span v-else class="cat-icon">{{ cat.icon }}</span>
+              <span>{{ cat.name }}</span>
+            </button>
+          </div>
+
+          <!-- Provider Filter -->
+          <div class="provider-filter">
+            <button
+              :class="['provider-btn', { active: activeProvider === 'all' }]"
+              @click="activeProvider = 'all'"
+            >
+              {{ t('games.allProviders') }}
+            </button>
+            <button
+              v-for="prov in providers"
+              :key="prov"
+              :class="['provider-btn', { active: activeProvider === prov }]"
+              @click="activeProvider = prov"
+            >
+              {{ prov }}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Games Grid -->
+      <section class="games-section">
+        <div class="container">
+          <div class="results-info">
+            <span v-html="t('games.resultsCount', { count: filteredGames.length })"></span>
+          </div>
+
+          <transition-group name="grid" tag="div" class="games-grid">
+            <GameCard
+              v-for="game in filteredGames"
+              :key="game.game_code"
+              :game="game"
+              @select="onGameSelect"
+            />
+          </transition-group>
+
+          <div v-if="filteredGames.length === 0" class="empty-state">
+            <span class="empty-icon">🎮</span>
+            <h3>{{ t('games.empty.title') }}</h3>
+            <p>{{ t('games.empty.desc') }}</p>
+            <button class="btn-outline" @click="searchQuery = ''; activeCategory = 'all'; activeProvider = 'all'">
+              {{ t('games.empty.resetBtn') }}
+            </button>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <!-- RTP Selection Modal -->
+    <RtpModal
+      v-if="showRtpModal && selectedGame"
+      :game="selectedGame"
+      :current-rtp="currentRtp"
+      @close="showRtpModal = false; selectedGame = null"
+      @confirm="onRtpConfirm"
+    />
+    <Teleport v-if="settingRtp" to="body">
+      <div class="rtp-loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>{{ rtpStatusMsg }}</p>
+      </div>
+    </Teleport>
+    <Teleport v-if="rtpError" to="body">
+      <div class="rtp-error-toast">
+        <span>⚠️</span>
+        <span>{{ rtpError }}</span>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -134,6 +254,21 @@ const localizedCategories = computed(() =>
 .page-desc {
   color: var(--text-secondary);
   font-size: 18px;
+}
+
+/* Loading */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border: 3px solid var(--bg-card);
+  border-top: 3px solid var(--neon-purple);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* Filters */
@@ -221,6 +356,7 @@ const localizedCategories = computed(() =>
 }
 
 .cat-icon { font-size: 16px; }
+.cat-icon-img { width: 18px; height: 18px; object-fit: contain; }
 
 .provider-filter {
   display: flex;
@@ -231,8 +367,9 @@ const localizedCategories = computed(() =>
 }
 
 .provider-btn {
-  padding: 5px 14px;
-  font-size: 12px;
+  padding: 5px 20px;
+  font-size: 15px;
+  font-weight: bold;
   color: var(--text-muted);
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -300,5 +437,41 @@ const localizedCategories = computed(() =>
   .games-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
   .category-tabs { gap: 6px; }
   .cat-btn { padding: 6px 14px; font-size: 13px; }
+}
+
+/* RTP Loading / Error overlay */
+.rtp-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.rtp-loading-overlay p {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+.rtp-error-toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: rgba(255, 45, 78, 0.15);
+  border: 1px solid rgba(255, 45, 78, 0.3);
+  border-radius: 12px;
+  color: #ff4d6a;
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.25s ease;
 }
 </style>

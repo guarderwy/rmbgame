@@ -71,6 +71,7 @@
   "games": {
     "pageTitle": "Game Lobby",
     "pageDesc": "Explore 2000+ premium games and find your favorite",
+    "loading": "Loading...",
     "searchPlaceholder": "Search game name or provider...",
     "allProviders": "All Providers",
     "resultsCount": "Found <strong class=\"neon-text\">{count}</strong> games",
@@ -168,13 +169,23 @@
     "live": "Live Casino",
     "card": "Card",
     "mini": "Mini Games",
-    "sport": "Sports"
+    "sport": "Sports",
+    "blockchain": "Blockchain"
   },
   "volatility": {
     "low": "Low",
     "medium": "Medium",
     "high": "High",
     "extreme": "Extreme"
+  },
+  "rtpModal": {
+    "selectRtp": "Select RTP",
+    "selectRtpDesc": "Choose your preferred RTP value to adjust the gaming experience",
+    "confirm": "Start Game",
+    "cancel": "Cancel",
+    "setting": "Setting RTP...",
+    "setSuccess": "RTP set successfully, launching game...",
+    "setFailed": "Failed to set RTP"
   },
   "game": {
     "descriptions": {
