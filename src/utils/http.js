@@ -33,7 +33,8 @@ const instance = axios.create({
   withCredentials: false,
   headers: {
     'Accept': 'application/json, text/plain, */*',
-    'Cache-Control': 'no-cache'
+    'Cache-Control': 'no-cache',
+    'Game-Path': import.meta.env.VITE_GAME_PATH
   }
 })
 
