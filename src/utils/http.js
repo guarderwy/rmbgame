@@ -28,7 +28,7 @@ class TimeoutError extends Error {
 // ==================== 创建 axios 实例 ====================
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://192.168.1.105:9700',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 15000,
   withCredentials: false,
   headers: {
