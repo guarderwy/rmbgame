@@ -2,7 +2,7 @@ import { reactive, computed } from 'vue'
 
 // Shared reactive state across all components
 const state = reactive({
-  locale: 'zh',
+  locale: 'en',
   messages: {}
 })
 
@@ -13,9 +13,9 @@ async function loadMessages(locale) {
     state.messages = module.default
   } catch (e) {
     console.error(`Failed to load locale: ${locale}`, e)
-    // Fallback to zh
-    if (locale !== 'zh') {
-      const module = await import('../locales/zh.json')
+    // Fallback to en
+    if (locale !== 'en') {
+      const module = await import('../locales/en.json')
       state.messages = module.default
     }
   }
@@ -33,7 +33,7 @@ function resolveKey(obj, key) {
 }
 
 // Initialize with saved locale
-const savedLocale = localStorage.getItem('locale') || 'zh'
+const savedLocale = localStorage.getItem('locale') || 'en'
 state.locale = savedLocale
 loadMessages(savedLocale)
 
@@ -63,7 +63,7 @@ export function useI18n() {
 
   /**
    * Set the active locale and persist it.
-   * @param {string} locale - Language code: 'zh', 'en', 'pt'
+   * @param {string} newLocale - Language code: 'en', 'zh', 'pt'
    */
   async function setLocale(newLocale) {
     if (newLocale === state.locale) return
