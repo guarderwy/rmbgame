@@ -12,7 +12,7 @@ const mobileMenuOpen = ref(false)
 const langMenuOpen = ref(false)
 
 const languages = [
-  { code: 'zh', label: '中文' },
+  // { code: 'zh', label: '中文' },
   { code: 'en', label: 'English' },
   { code: 'pt', label: 'Português' }
 ]
@@ -23,7 +23,7 @@ const navLinks = [
   { name: () => t('nav.about'), path: '/about' }
 ]
 
-const currentLang = () => languages.find(l => l.code === locale.value)?.label || '中文'
+const currentLang = () => languages.find(l => l.code === locale.value)?.label || 'English'
 
 const handleScroll = () => {
   scrolled.value = window.scrollY > 20
