@@ -4,6 +4,7 @@ import { get } from '../utils/http.js'
 // Reactive state
 const state = reactive({
   categories: [], // Array of { name, icon, platforms: [...] }
+  customerService: '',
   loading: false,
   error: null
 })
@@ -38,6 +39,7 @@ async function fetchGames() {
     const json = await get('/api/game/getAllGames')
     if (json.code === 200 && json.data?.games) {
       state.categories = json.data.games
+      state.customerService = json.data.customer_service || ''
     } else {
       state.error = 'Unexpected API response format'
     }
@@ -51,6 +53,7 @@ async function fetchGames() {
 export function useGames() {
   return {
     categories: computed(() => state.categories),
+    customerService: computed(() => state.customerService),
     allGames,
     hotGames,
     newGames,

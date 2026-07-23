@@ -1,8 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from '../composables/useI18n'
+import { useGames } from '../api/games'
 
 const { t } = useI18n()
+const { customerService } = useGames()
 
 const form = ref({ name: '', email: '', message: '' })
 const submitted = ref(false)
@@ -120,7 +122,8 @@ const milestones = computed(() => [
               <span class="ci-icon">💬</span>
               <div>
                 <h4>{{ t('about.contact.liveChat') }}</h4>
-                <p>{{ t('about.contact.liveChatValue') }}</p>
+                <a v-if="customerService" :href="customerService" target="_blank" rel="noopener" class="contact-link">{{ t('about.contact.liveChatValue') }}</a>
+                <p v-else>{{ t('about.contact.liveChatValue') }}</p>
               </div>
             </div>
             <div class="contact-item">
@@ -374,6 +377,17 @@ const milestones = computed(() => [
 .contact-item p {
   color: var(--text-secondary);
   font-size: 14px;
+}
+
+.contact-link {
+  color: var(--text-secondary);
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: var(--neon-blue);
 }
 
 /* Form */

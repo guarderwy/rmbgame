@@ -1,7 +1,9 @@
 <script setup>
 import { useI18n } from '../composables/useI18n'
+import { useGames } from '../api/games'
 
 const { t } = useI18n()
+const { customerService } = useGames()
 const year = new Date().getFullYear()
 </script>
 
@@ -35,7 +37,8 @@ const year = new Date().getFullYear()
           <a href="#">{{ t('footer.supportLinks.help') }}</a>
           <a href="#">{{ t('footer.supportLinks.privacy') }}</a>
           <a href="#">{{ t('footer.supportLinks.terms') }}</a>
-          <a href="#">{{ t('footer.supportLinks.contact') }}</a>
+          <a v-if="customerService" :href="customerService" target="_blank" rel="noopener">{{ t('footer.supportLinks.contact') }}</a>
+          <a v-else href="#">{{ t('footer.supportLinks.contact') }}</a>
         </div>
       </div>
     </div>
